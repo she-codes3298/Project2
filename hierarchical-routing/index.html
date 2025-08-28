@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hierarchical Routing Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Routing Algorithms</div>
+    <nav>
+        <ul>
+            
+            <li><a class="nav_link" href="/home/rupali/project2/integration.html">Home</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/dijkstra_algo/intro.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/distance-vector_routing/intro.html">Distance Vector</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/flooding/intro.html">Flooding</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/link-state_routing/intro.html">Link State</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/broad-cast_routing/intro.html">Broadcast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/multi-state_routing/intro.html">Multicast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/hierarchical-routing/intro.html">Hierarchical Routing</a></li>
+        </ul>
+    </nav>
+</header>
+
+    <div class="container">
+        <h1>Hierarchical Routing Visualization</h1>
+
+        <!-- Static Graph Section -->
+        <div id="graph-container">
+            <div class="graph-box">
+                <h2>Static Graph</h2>
+                <svg id="static-graph" width="800" height="600"></svg>
+            </div>
+            <div class="graph-box">
+                <h2>Dynamic Graph</h2>
+                <svg id="dynamic-graph" width="800" height="600"></svg>
+            </div>
+        </div>
+<a href="/home/rupali/project2/hierarchical-routing/intro.html"><button id="intro">Back to Intro</button></a>
+        <!-- Control Panel -->
+        <div id="control-panel">
+            <h2>Control Panel</h2>
+            <button id="next-step">Next Step</button>
+            <div id="step-description">Click "Next Step" to start the simulation</div>
+       
+
+                
+           
+        </div>
+
+        <!-- Routing Tables -->
+        <div id="routing-tables">
+            <div id="table-A1"></div>
+            <div id="table-A2"></div>
+            <div id="table-B1"></div>
+            <div id="table-B2"></div>
+            <div id="table-C1"></div>
+            <div id="table-C2"></div>
+        </div>
+    </div>
+     
+
+    <!-- Include the JavaScript file to enable the graph visualization -->
+    <script src="script2.js"></script>
+</body>
+</html>
+

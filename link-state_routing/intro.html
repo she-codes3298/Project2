@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link State Routing Algorithm</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1, h2, h3, p {
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #2f4f4f;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .navbar ul li a:hover, .navbar ul li a.active {
+            color: #fff;
+        }
+
+        .content {
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            color: #2f4f4f;
+            margin-bottom: 20px;
+        }
+
+        .content h2 {
+            font-size: 28px;
+            color: #2f4f4f;
+            margin-top: 40px;
+        }
+
+        .content p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Step Implementation List */
+        .steps {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        .steps li {
+            background: #CBE2B5;
+            color: #2f4f4f;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        /* Difference Table */
+        .difference-table {
+            margin: 20px auto;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        .difference-table th, .difference-table td {
+            border: 1px solid #2f4f4f;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .difference-table th {
+            background-color: #CBE2B5;
+            color: #2f4f4f;
+        }
+
+        /* Footer (optional, for better structure) */
+        footer {
+            background-color: #2f4f4f;
+            padding: 10px;
+            text-align: center;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Button (optional, if you want to add action items) */
+        .btn-primary {
+            background-color: #CBE2B5;
+            color: #2f4f4f;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #a8c9a0;
+            color: #2f4f4f;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+    <div class="logo">Routing Algorithms</div>
+    <nav>
+        <ul>
+             <li><a class="nav_link" href="/home/rupali/project2/integration.html">Home</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/dijkstra_algo/intro.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/distance-vector_routing/intro.html">Distance Vector</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/flooding/intro.html">Flooding</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/link-state_routing/intro.html">Link State</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/broad-cast_routing/intro.html">Broadcast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/multi-state_routing/intro.html">Multicast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/hierarchical-routing/intro.html">Hierarchical Routing</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Page-specific content -->
+<div class="content">
+    <h1>Understanding Link State Routing</h1>
+    <p>Welcome to the Link State Routing section of the Routing Algorithm Visualization Hub! Link State Routing is the second family of routing protocols. While Distance Vector Routing uses a distributed algorithm to compute routing tables, Link State Routing utilizes link-state routers to exchange messages that allow each router to learn the entire network topology. Based on this learned topology, each router computes its routing table using shortest path computation.</p>
+    
+    <p>Link State Routing is a popular algorithm used in unicast routing to determine the shortest path in a network. Understanding how Link State protocols work is key to mastering routing algorithms. To gain a more detailed understanding of unicast routing and Link State protocols, the GATE CS and IT – 2025 course offers thorough coverage of routing algorithms, complete with practical exercises and real-world applications, helping you prepare for both theoretical exams and practical network design.</p>
+    <h2>Difference from Distance Vector Routing</h2>
+    <table class="difference-table">
+        <thead>
+            <tr>
+                <th>Aspect</th>
+                <th>Link State Routing</th>
+                <th>Distance Vector Routing</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Distance Calculation</td>
+                <td>Computes the distance to all nodes using the shortest path algorithm.</td>
+                <td>Shares distance vectors with immediate neighbors to update routing tables.</td>
+            </tr>
+            <tr>
+                <td>Efficiency</td>
+                <td>Generally converges faster and is more efficient in larger networks due to a comprehensive view of the network.</td>
+                <td>May take longer to converge, especially in larger networks.</td>
+            </tr>
+            <tr>
+                <td>Complexity</td>
+                <td>Can be more complex to implement and manage, but provides more accurate routing decisions.</td>
+                <td>Relatively simpler but less efficient for larger networks.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Steps of Implementation</h2>
+    <ul class="steps">
+        <li>1. Initialize Link State Table<br>
+        Each node initializes its link state database with information about its directly connected neighbors.</li>
+        
+        <li>2. Broadcast Link State Advertisements<br>
+        Nodes periodically send out link state advertisements (LSAs) containing their neighbor information to all other nodes in the network.</li>
+        
+        <li>3. Update Link State Database<br>
+        Upon receiving LSAs, each node updates its link state database to include information from other nodes.</li>
+        
+        <li>4. Calculate Shortest Paths<br>
+        Using the complete link state database, each node calculates the shortest paths to all other nodes using an algorithm such as Dijkstra's.</li>
+        
+        <li>5. Maintain Updated Routes<br>
+        Nodes continue to maintain and update their link state databases and routing tables as the network topology changes.</li>
+    </ul>
+
+    
+
+    <a href="/home/rupali/project2/link-state_routing/index.html" class="btn-primary">Visualization</a>
+</div>
+
+</body>
+</html>
+

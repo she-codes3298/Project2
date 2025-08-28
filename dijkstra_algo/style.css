@@ -1,0 +1,72 @@
+.node {
+    fill: #4682b4; /* A shade of blue similar to the navbar */
+    stroke: #2f4f4f; /* Dark gray for consistency with navbar */
+    stroke-width: 1.5px;
+}
+
+.link {
+    fill: none;
+    stroke: #999;
+    stroke-opacity: 0.6;
+    stroke-width: 2px;
+}
+
+.highlight {
+    stroke: orange;
+    stroke-width: 5px;
+}
+
+.node-label, .link-label {
+    font-family: 'Arial', sans-serif; /* Match with home page */
+    font-size: 12px;
+}
+
+.node-distance {
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    fill: white;
+}
+
+.path-highlight {
+    stroke: green;
+    stroke-width: 4px;
+}
+
+.current-node {
+    fill: yellow;
+}
+
+.visited-node {
+    fill: lightgreen;
+}
+
+.step-description {
+     margin: 10px 0;
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #2f4f4f; /* Match navbar font color */
+            font-weight: bold;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #2f4f4f; /* Same as navbar background */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4682b4; /* Hover effect matching node color */
+}
+
+#container {
+    display: flex;
+    justify-content: space-between;
+}
+

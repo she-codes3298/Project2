@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanning Tree Visualization</title>
+    <style>
+        .navbar {
+            background-color: #2f4f4f;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .navbar ul li {
+            margin-right: 20px;
+        }
+        .navbar ul li a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .navbar ul li a:hover, .navbar ul li a.active {
+            color: #fff;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        svg {
+            border: 1px solid black;
+            margin: 10px;
+            overflow: visible; /* Ensure all elements are visible */
+        }
+        .node {
+            fill: lightblue;
+            stroke: blue;
+            stroke-width: 2px;
+        }
+        .link {
+            stroke: gray;
+            stroke-width: 2px;
+        }
+        .node-label {
+            font-size: 14px;
+            text-anchor: middle;
+        }
+        .link-label {
+            font-size: 12px;
+            text-anchor: middle;
+            fill: black;
+        }
+        .visited-node {
+            fill: orange;
+        }
+        .path-highlight {
+            stroke: red;
+            stroke-width: 4px;
+        }
+        .distance-label {
+            font-size: 12px;
+            fill: black;
+        }
+        #spanningTreeMessage {
+            margin: 10px 0;
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #2f4f4f; /* Match navbar font color */
+            font-weight: bold;
+        }
+         button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #2f4f4f; /* Same as navbar background */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4682b4; /* Hover effect matching node color */
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+<header class="navbar">
+    <div class="logo">Routing Algorithms</div>
+    <nav>
+        <ul>
+            <li><a class="nav_link" href="/home/rupali/project2/integration.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/dijkstra_algo/index.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/distance-vector_routing/index.html">Distance Vector</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/flooding/index.html">Flooding</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/link-state_routing/index.html">Link State</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/broad-cast_routing/index.html">Broadcast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/multi-state_routing/index.html">Multicast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/hierarchical-routing/index.html">Hierarchical Routing</a></li>
+        </ul>
+    </nav>
+</header>
+
+<h1>Dynamic Spanning Tree Visualization</h1>
+<label for="node-input">Enter Nodes (comma separated): </label>
+<input type="text" id="node-input" placeholder="A,B,C,D,E" style="width: 200px;">
+<br>
+<label for="edge-input">Enter Links (format: source-target,weight): </label>
+<input type="text" id="edge-input" placeholder="A-B,4 B-C,5 B-D,6" style="width: 300px;">
+<br>
+<button id="generate-graph-from-file">Upload</button>
+<input type="file" id="file-input" style="display: none;" accept=".txt"/>
+
+<button id="generateGraphBtn">Generate Graph</button>
+<button id="startSpanningTreeBtn">Start Spanning Tree</button>
+<a href="/home/rupali/project2/broad-cast_routing/index.html"><button id="spanning-tree">Homepage</button></a>
+<div class="step-description" id="spanningTreeDescription"></div>
+<p id="spanningTreeMessage" style="display:none;"></p>
+
+<!-- Adjusted SVG boxes -->
+<div style="display: flex; justify-content: space-around;">
+    <svg id="originalGraph" width="450" height="450" viewBox="0 0 450 450"></svg>
+    <svg id="spanningTreeGraph" width="450" height="450" viewBox="0 0 450 450"></svg>
+</div>
+
+<script>
+    let nodes = [];
+    let links = [];
+    let spanningTreeEdges = [];
+    const originalSvg = d3.select("#originalGraph");
+    const spanningTreeSvg = d3.select("#spanningTreeGraph");
+
+    // Function to draw the graph
+    function drawGraph(svg, nodes, links) {
+        svg.selectAll("*").remove(); // Clear the previous graph
+
+        svg.selectAll(".link")
+            .data(links)
+            .enter()
+            .append("line")
+            .attr("class", "link")
+            .attr("x1", d => nodes.find(n => n.id === d.source).x)
+            .attr("y1", d => nodes.find(n => n.id === d.source).y)
+            .attr("x2", d => nodes.find(n => n.id === d.target).x)
+            .attr("y2", d => nodes.find(n => n.id === d.target).y);
+
+        const nodeSelection = svg.selectAll(".node")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+        nodeSelection.append("circle")
+            .attr("r", 15);
+
+        nodeSelection.append("text")
+            .attr("dy", 4)
+            .attr("text-anchor", "middle")
+            .text(d => d.id);
+    }
+
+    // Function to generate unique random positions
+    function getRandomPosition(existingPositions, radius) {
+        const maxTries = 100;
+        let position;
+
+        for (let tries = 0; tries < maxTries; tries++) {
+            const x = Math.random() * (450 - 2 * radius) + radius; // Adjusted to fit within 450
+            const y = Math.random() * (450 - 2 * radius) + radius; // Adjusted to fit within 450
+            position = { x, y };
+
+            const overlap = existingPositions.some(pos => {
+                const dx = pos.x - position.x;
+                const dy = pos.y - position.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                return distance < 2 * radius; // Nodes should not overlap
+            });
+
+            if (!overlap) {
+                return position;
+            }
+        }
+
+        return position; // Fallback if no position is found after max tries
+    }
+
+    // Generate graph from user input
+    function generateGraph() {
+        const nodeInput = document.getElementById('node-input').value;
+        const edgeInput = document.getElementById('edge-input').value;
+
+        const nodeIds = nodeInput.split(',').map(id => id.trim());
+        const positions = [];
+
+        nodes = nodeIds.map(id => {
+            const pos = getRandomPosition(positions, 25);
+            positions.push(pos);
+            return { id, ...pos };
+        });
+
+        links = edgeInput.split(' ').map(edge => {
+            const [nodes, weight] = edge.split(',');
+            const [source, target] = nodes.split('-');
+            return { source: source.trim(), target: target.trim(), weight: parseInt(weight) };
+        });
+
+        drawGraph(originalSvg, nodes, links);
+        spanningTreeEdges = []; // Clear previous edges
+        document.getElementById("spanningTreeMessage").style.display = 'none'; // Hide message
+    }
+
+    // Start generating the spanning tree
+    function startSpanningTree() {
+        generateSpanningTree();
+        drawSpanningTreeGraph();
+        document.getElementById("spanningTreeMessage").innerText = "Spanning Tree generated successfully!\n Now the source node transmit packets to all the nodes\n This way broadcasting is implemented ";
+        document.getElementById("spanningTreeMessage").style.display = 'block'; // Show message
+    }
+
+    // Generate the spanning tree using DFS
+    function generateSpanningTree() {
+        const visited = new Set();
+        const stack = [];
+
+        // Start from the first node
+        if (nodes.length > 0) {
+            stack.push(nodes[0].id);
+            visited.add(nodes[0].id);
+        }
+
+        while (stack.length > 0) {
+            const currentNodeId = stack.pop();
+            const connectedEdges = links.filter(link => link.source === currentNodeId || link.target === currentNodeId);
+            
+            connectedEdges.forEach(edge => {
+                const neighborId = edge.source === currentNodeId ? edge.target : edge.source;
+                if (!visited.has(neighborId)) {
+                    visited.add(neighborId);
+                    stack.push(neighborId);
+                    spanningTreeEdges.push(edge); // Add edge to spanning tree
+                }
+            });
+        }
+    }
+
+    // Draw the spanning tree graph
+    function drawSpanningTreeGraph() {
+        spanningTreeSvg.selectAll("*").remove(); // Clear previous spanning tree
+
+        spanningTreeSvg.selectAll(".link")
+            .data(spanningTreeEdges)
+            .enter()
+            .append("line")
+            .attr("class", "link")
+            .attr("x1", d => nodes.find(n => n.id === d.source).x)
+            .attr("y1", d => nodes.find(n => n.id === d.source).y)
+            .attr("x2", d => nodes.find(n => n.id === d.target).x)
+            .attr("y2", d => nodes.find(n => n.id === d.target).y)
+            .attr("stroke", "green");
+
+        const nodeSelection = spanningTreeSvg.selectAll(".node")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+        nodeSelection.append("circle")
+            .attr("r", 15)
+            .attr("fill", "lightgreen");
+
+        nodeSelection.append("text")
+            .attr("dy", 4)
+            .attr("text-anchor", "middle")
+            .text(d => d.id);
+    }
+
+    document.getElementById("generateGraphBtn").addEventListener("click", generateGraph);
+    document.getElementById("startSpanningTreeBtn").addEventListener("click", startSpanningTree);
+    
+    // Event listener for "Generate Graph from File" button
+document.getElementById('generate-graph-from-file').addEventListener('click', () => {
+    document.getElementById('file-input').click(); // Trigger the hidden file input
+});
+
+// Event listener for file selection
+document.getElementById('file-input').addEventListener('change', handleFileSelect);
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const content = e.target.result;
+        const lines = content.split('\n');
+
+        // Assume first line is the node input and the second line is the edge input
+        if (lines.length >= 2) {
+            const nodeInput = lines[0].trim();
+            const edgeInput = lines[1].trim();
+
+            // Set the values of the input boxes
+            document.getElementById('node-input').value = nodeInput;
+            document.getElementById('edge-input').value = edgeInput;
+
+            // Now call the generateGraph function to process the inputs
+            generateGraph();
+        } else {
+            alert('The file format is incorrect. Please provide at least two lines: one for nodes and one for edges.');
+        }
+    };
+
+    // Read the file as text
+    reader.readAsText(file);
+}
+
+</script>
+</body>
+</html>
+

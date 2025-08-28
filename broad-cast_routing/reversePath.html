@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Path Forwarding Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        /* Add your CSS styles here */
+        svg {
+            border: 1px solid black;
+            margin: 10px;
+        }
+        .node {
+            fill: lightblue;
+            stroke: blue;
+            stroke-width: 2px;
+        }
+        .link {
+            stroke: gray;
+            stroke-width: 2px;
+        }
+        .path-highlight {
+            stroke: red;
+            stroke-width: 4px;
+        }
+        .current-node {
+            fill: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reverse Path Forwarding Visualization</h1>
+    <label for="node-input">Enter Nodes (comma separated): </label>
+    <input type="text" id="node-input" placeholder="A,B,C,D,E" style="width: 200px;">
+    <br>
+    <label for="edge-input">Enter Links (format: source-target,weight): </label>
+    <input type="text" id="edge-input" placeholder="A-B,4 B-C,5 B-D,6" style="width: 300px;">
+    <br>
+    <label for="source">Source Node: </label>
+    <input type="text" id="source" placeholder="A" style="width: 50px;">
+    <label for="destination">Destination Node: </label>
+    <input type="text" id="destination" placeholder="C" style="width: 50px;">
+    <br>
+    <button id="generate-graph">Generate Graph</button>
+    <button id="run-algorithm">Run Reverse Path Forwarding</button>
+    <button id="next-step" style="display:none;">Next Step</button>
+    
+    <div style="display: flex; justify-content: space-around;">
+        <svg id="graph" width="800" height="400"></svg>
+    </div>
+
+    <script>
+        let nodes = [];
+        let edges = [];
+
+        // Generate graph based on user input
+        document.getElementById('generate-graph').onclick = function() {
+            const nodeInput = document.getElementById('node-input').value;
+            const edgeInput = document.getElementById('edge-input').value;
+
+            // Parse nodes
+            nodes = nodeInput.split(',').map(name => ({ id: name.trim(), x: Math.random() * 700 + 50, y: Math.random() * 300 + 50 }));
+
+            // Parse edges
+            edges = edgeInput.split(',').map(edge => {
+                const [sourceTarget, weight] = edge.split(',');
+                const [source, target] = sourceTarget.split('-');
+                return { source: source.trim(), target: target.trim(), weight: parseInt(weight) };
+            });
+
+            drawGraph();
+        };
+
+        // Draw the graph
+        function drawGraph() {
+            const svg = d3.select("#graph").html(""); // Clear previous graph
+
+            // Create links
+            svg.selectAll(".link")
+                .data(edges)
+                .enter().append("line")
+                .attr("class", "link")
+                .attr("x1", d => findNode(d.source).x)
+                .attr("y1", d => findNode(d.source).y)
+                .attr("x2", d => findNode(d.target).x)
+                .attr("y2", d => findNode(d.target).y);
+
+            // Create nodes
+            const nodeElements = svg.selectAll(".node")
+                .data(nodes)
+                .enter().append("circle")
+                .attr("class", "node")
+                .attr("r", 10)
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y)
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            nodeElements.append("title")
+                .text(d => d.id);
+        }
+
+        // Find a node by its ID
+        function findNode(id) {
+            return nodes.find(node => node.id === id) || { x: 0, y: 0 };
+        }
+
+        // RPF Algorithm Logic
+        document.getElementById('run-algorithm').onclick = function() {
+            const sourceNodeId = document.getElementById('source').value.trim();
+            const destinationNodeId = document.getElementById('destination').value.trim();
+
+            const rpfPath = runReversePathForwarding(sourceNodeId, destinationNodeId);
+            highlightPath(rpfPath);
+        };
+
+        function runReversePathForwarding(sourceId, destinationId) {
+            const rpfTree = {};
+            const queue = [sourceId];
+
+            while (queue.length > 0) {
+                const currentNode = queue.shift();
+
+                edges.forEach(edge => {
+                    if (edge.target === currentNode) {
+                        if (!rpfTree[edge.source]) {
+                            rpfTree[edge.source] = [];
+                        }
+                        rpfTree[edge.source].push(currentNode);
+                        queue.push(edge.source);
+                    }
+                });
+            }
+
+            return constructPath(rpfTree, sourceId, destinationId);
+        }
+
+        function constructPath(rpfTree, sourceId, destinationId) {
+            const path = [];
+            let currentNode = destinationId;
+
+            while (currentNode !== sourceId) {
+                path.push(currentNode);
+                const prevNode = Object.keys(rpfTree).find(node => rpfTree[node].includes(currentNode));
+                if (!prevNode) break; // No more path
+                currentNode = prevNode;
+            }
+
+            path.push(sourceId);
+            return path.reverse(); // Reverse the path to start from the source
+        }
+
+        function highlightPath(path) {
+            const svg = d3.select("#graph");
+            svg.selectAll(".path-highlight").remove(); // Clear previous highlights
+
+            path.forEach((node, index) => {
+                const nodeElement = svg.selectAll(".node").filter(d => d.id === node);
+                nodeElement.classed("path-highlight", true); // Highlight node
+
+                if (index > 0) {
+                    const previousNode = path[index - 1];
+                    svg.append("line")
+                        .attr("class", "path-highlight")
+                        .attr("x1", findNode(previousNode).x)
+                        .attr("y1", findNode(previousNode).y)
+                        .attr("x2", findNode(node).x)
+                        .attr("y2", findNode(node).y);
+                }
+            });
+        }
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+    </script>
+</body>
+</html>
+

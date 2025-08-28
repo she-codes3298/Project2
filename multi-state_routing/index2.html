@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multicast Routing Visulization</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+     <link rel="stylesheet" href="style2.css">
+     <style>
+        .link { stroke: #999; stroke-opacity: 0.6; }
+        .node { fill: #69b3a2; }
+        .node-label { font-size: 12px; text-anchor: middle; }
+        .group-label { font-size: 10px; text-anchor: middle; fill: red; }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+<header class="navbar">
+    <div class="logo">Routing Algorithms</div>
+    <nav>
+        <ul>
+            <li><a class="nav_link" href="/home/rupali/project2/integration.html">Home</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/dijkstra_algo/intro.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/distance-vector_routing/intro.html">Distance Vector</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/flooding/intro.html">Flooding</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/link-state_routing/intro.html">Link State</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/broad-cast_routing/intro.html">Broadcast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/multi-state_routing/intro.html">Multicast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/hierarchical-routing/intro.html">Hierarchical Routing</a></li>
+        </ul>
+    </nav>
+</header>
+    <h1>Multicast Routing Visulization</h1>
+    <div class="step-info">
+        <p id="step-description">Step 1: Display the original graph with group numbers</p>
+    </div>
+    <div>
+        <button id="prev-step">Back</button>
+        <button id="next-step">Next Step</button>
+    </div>
+<a href="/home/rupali/project2/multi-state_routing/intro.html"><button id="intro">Back to Intro</button></a>
+
+    <div>
+        <svg id="static-graph" width="800" height="400"></svg>
+        <svg id="dynamic-graph" width="1300" height="700"></svg>
+    </div>
+
+    
+
+   
+</body>
+ 
+
+ <script src="script2.js"></script>
+</html> 

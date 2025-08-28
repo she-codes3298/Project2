@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flooding Algorithm</title>
+    <style>
+         /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1, h2, h3, p {
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #2f4f4f;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .navbar ul li a:hover, .navbar ul li a.active {
+            color: #fff;
+        }
+
+        .content {
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            color: #2f4f4f;
+            margin-bottom: 20px;
+        }
+
+        .content h2 {
+            font-size: 28px;
+            color: #2f4f4f;
+            margin-top: 40px;
+        }
+
+        .content p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Step Implementation List */
+        .steps {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        .steps li {
+            background: #CBE2B5;
+            color: #2f4f4f;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        /* Footer (optional, for better structure) */
+        footer {
+            background-color: #2f4f4f;
+            padding: 10px;
+            text-align: center;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Button (optional, if you want to add action items) */
+        .btn-primary {
+            background-color: #CBE2B5;
+            color: #2f4f4f;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #a8c9a0;
+            color: #2f4f4f;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+    <div class="logo">Routing Algorithms</div>
+    <nav>
+        <ul>
+             <li><a class="nav_link" href="/home/rupali/project2/integration.html">Home</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/dijkstra_algo/intro.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/distance-vector_routing/intro.html">Distance Vector</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/flooding/intro.html">Flooding</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/link-state_routing/intro.html">Link State</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/broad-cast_routing/intro.html">Broadcast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/multi-state_routing/intro.html">Multicast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/hierarchical-routing/intro.html">Hierarchical Routing</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Page-specific content -->
+<div class="content">
+    <h1>Understanding the Flooding Algorithm</h1>
+    <p>Welcome to the Flooding Algorithm section of the Routing Algorithm Visualization Hub! Flooding is an easy and straightforward routing technique where the source node sends packets over each of its outgoing links. In this algorithm, each incoming packet is transmitted through every outgoing link, except for the one it arrived on. Flooding is guaranteed to find and exploit the shortest paths to the sent packets, as it naturally utilizes each route in the network. This makes flooding a very effective and simple routing algorithm.</p>
+
+    <p>Flooding is particularly useful in scenarios where network topology is dynamic or unknown, ensuring that the message reaches every part of the network. However, it may lead to challenges, such as potential network congestion and redundancy in message delivery.</p>
+ <h2>Steps of Implementation</h2>
+<ul class="steps">
+        <li>1. Initialize the Flooding Process<br>
+        Start the flooding process by selecting a source node that will initiate the message transmission.</li>
+        <li>2. Send Messages to Neighbors<br>
+        The source node sends a copy of the message to all its immediate neighbors.</li>
+        <li>3. Propagation of Messages<br>
+        Upon receiving the message, each neighboring node checks if it has already processed the message. If not, it forwards the message to all its neighbors (except the one it received it from).</li>
+        <li>4. Repeat Until All Nodes Receive the Message<br>
+        This process continues until the message has been received by all nodes in the network.</li>
+        <li>5. End of Flooding
+        The flooding process concludes when all nodes have received the message, or a predetermined stopping condition is met.</li>
+        
+    </ul>
+    
+
+   
+
+    <a href="/home/rupali/project2/flooding/index.html" class="btn-primary">Visualization</a>
+</div>
+
+
+</body>
+</html>
+

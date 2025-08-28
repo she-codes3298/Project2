@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra's Algorithm Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+    .navbar {
+            background-color: #2f4f4f;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .navbar ul li {
+            margin-right: 20px;
+        }
+        .navbar ul li a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .navbar ul li a:hover, .navbar ul li a.active {
+            color: #fff;
+           }
+            body {
+            font-family: Arial, sans-serif;
+        }
+        svg {
+            border: 1px solid black;
+            margin: 10px;
+        }
+        .node {
+            fill: lightblue;
+            stroke: blue;
+            stroke-width: 2px;
+        }
+        .link {
+            stroke: gray;
+            stroke-width: 2px;
+        }
+        .node-label {
+            font-size: 14px;
+            text-anchor: middle;
+        }
+        .link-label {
+            font-size: 12px;
+            text-anchor: middle;
+            fill: black;
+        }
+        .visited-node {
+            fill: orange;
+        }
+        .path-highlight {
+            stroke: red;
+            stroke-width: 4px;
+        }
+        .distance-label {
+            font-size: 12px;
+            fill: black;
+        }
+        button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #2f4f4f; /* Same as navbar background */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4682b4; /* Hover effect matching node color */
+}
+         </style>
+    
+</head>
+<body>
+<header class="navbar">
+    <div class="logo">Routing Algorithms</div>
+    <nav>
+        <ul>
+           <li><a class="nav_link" href="/project2/integration.html">Home</a></li>
+            <li><a class="nav_link" href="/project2/dijkstra_algo/intro.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/project2/distance-vector_routing/intro.html">Distance Vector</a></li>
+            <li><a class="nav_link" href="/project2/flooding/intro.html">Flooding</a></li>
+            <li><a class="nav_link" href="/project2/link-state_routing/intro.html">Link State</a></li>
+            <li><a class="nav_link" href="/project2/broad-cast_routing/intro.html">Broadcast</a></li>
+            <li><a class="nav_link" href="/project2/multi-state_routing/intro.html">Multicast</a></li>
+            <li><a class="nav_link" href="/project2/hierarchical-routing/intro.html">Hierarchical Routing</a></li>
+    </nav>
+</header>
+<div id="navbar-placeholder"></div>
+
+    <h1>Graph Visualization with Dijkstra's Algorithm</h1>
+<label for="node-input">Enter Nodes (comma separated): </label>
+<input type="text" id="node-input" placeholder="A,B,C,D,E" style="width: 200px;">
+<br>
+<label for="edge-input">Enter Links (format: source-target,weight): </label>
+<input type="text" id="edge-input" placeholder="A-B,4;B-C,5;B-D,6" style="width: 300px;">
+<br>
+
+<label for="source">Source Node: </label>
+<input type="text" id="source" placeholder="A" style="width: 50px;">
+<label for="destination">Destination Node: </label>
+<input type="text" id="destination" placeholder="C" style="width: 50px;">
+<br>
+<button id="generate-graph-from-file">Upload</button>
+<input type="file" id="file-input" style="display: none;" accept=".txt"/>
+
+<button id="generate-graph">Generate Graph</button>
+<button id="run-algorithm">Run Dijkstra's Algorithm</button>
+<button id="next-step">Next Step</button>
+<div class="step-description"></div>
+
+<!-- Two SVG boxes -->
+<div style="display: flex; justify-content: space-around;">
+    <svg id="static-graph" width="400" height="400"></svg>
+    <svg id="dynamic-graph" width="400" height="400"></svg>
+   
+</div>
+<a href="/project2/dijkstra_algo/intro.html"><button id="intro">Back to Intro</button></a>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+
+
+
+    <script src="script2.js"></script>
+
+    
+</body>
+</html>
+

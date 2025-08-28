@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flooding Algorithm Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* Navbar */
+        .navbar {
+            background-color: #2f4f4f;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .navbar ul li {
+            margin-right: 20px;
+        }
+        .navbar ul li a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .navbar ul li a:hover, .navbar ul li a.active {
+            color: #fff;
+        }
+
+        /* Graph styles */
+        .node circle {
+            fill: #4682b4; /* Steel blue */
+            stroke: #333;
+            stroke-width: 2.5px;
+        }
+        .node text {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            fill: #fff;
+        }
+        .link {
+            stroke: #bbb;
+            stroke-opacity: 0.7;
+            stroke-width: 2;
+        }
+        .highlighted-link {
+            stroke: #ffa500; /* Orange */
+            stroke-width: 4;
+        }
+
+        /* Flexbox container for SVGs */
+        #graph-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        /* Styles for individual SVG containers */
+        .graph-box {
+            border: 2px solid #4682b4; /* Steel blue */
+            padding: 10px;
+            background-color: #f0f8ff; /* Alice Blue */
+            width: 45%;
+            height: 400px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Buttons and descriptions */
+        #description,p{
+            margin: 10px 0;
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #2f4f4f; /* Match navbar font color */
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #2f4f4f; /* Same as navbar background */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4682b4; /* Hover effect matching node color */
+        }
+    </style>
+</head>
+<body>
+<header class="navbar">
+    <div class="logo">Routing Algorithms</div>
+    <nav>
+        <ul>
+            <li><a class="nav_link" href="/home/rupali/project2/integration.html">Home</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/dijkstra_algo/intro.html">Dijkstra</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/distance-vector_routing/intro.html">Distance Vector</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/flooding/intro.html">Flooding</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/link-state_routing/intro.html">Link State</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/broad-cast_routing/intro.html">Broadcast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/multi-state_routing/intro.html">Multicast</a></li>
+            <li><a class="nav_link" href="/home/rupali/project2/hierarchical-routing/intro.html">Hierarchical Routing</a></li>
+        </ul>
+    </nav>
+</header>
+
+<h2>Flooding Algorithm Visualization</h2>
+
+<label for="nodes-input">Enter Nodes (comma separated):</label>
+<input id="nodes-input" placeholder="A, B, C, D, E" />
+<br />
+<label for="links-input">Enter Links (source,target; source,target):</label>
+<input id="links-input" placeholder="A,B; B,D; A,C; D,C" />
+<br />
+<button id="generate-graph-from-file">Upload</button>
+<input type="file" id="file-input" style="display: none;" accept=".txt"/>
+
+<button id="generate-graph">Generate Graph</button>
+
+<label for="initiator">Enter Start Node:</label>
+<input id="initiator" placeholder="Enter start node" />
+<button id="start-flooding" disabled>Start Flooding</button>
+<p id="flooding-description" style="display: none;">Nodes do not send packets to links from where the packet has arrived</p>
+<a href="/home/rupali/project2/flooding/intro.html"><button id="intro">Back to Intro</button></a>
+<div id="description"></div>
+<button id="backStep" disabled>Back Step</button>
+<button id="nextStep" disabled>Next Step</button>
+
+<div id="graph-container">
+    <div id="static-graph" class="graph-box"></div>
+    <div id="dynamic-graph" class="graph-box"></div>
+</div>
+
+<script src="flooding.js"></script>
+</body>
+</html>
+
