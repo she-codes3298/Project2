@@ -2,9 +2,7 @@
 
 An interactive web-based platform for visualizing and understanding fundamental routing algorithms used in computer networking. This educational tool provides step-by-step visualizations of how different routing algorithms work, making complex networking concepts accessible and easy to understand.
 
-## 🌐 Live Demo
 
-Access the visualization hub at: [Your deployment URL here]
 
 ## 📋 Table of Contents
 
