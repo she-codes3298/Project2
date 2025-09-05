@@ -39,7 +39,6 @@ An interactive web-based platform for visualizing and understanding fundamental 
 | Algorithm | Graph Input | Step Visualization | Optimal Node Count |
 |-----------|-------------|-------------------|-------------------|
 | **Dijkstra's Algorithm** | ✅ Manual/Upload | ✅ Yes | 4-8 nodes |
-
 | **Flooding Algorithm** | ✅ Manual/Upload | ✅ Yes | 4-7 nodes |
 | **Link State Routing** | ✅ Manual/Upload | ✅ Yes | 4-6 nodes |
 | **Hierarchical Routing** | ❌ Hardcoded | ✅ Yes | Fixed topology |
