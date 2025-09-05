@@ -39,7 +39,7 @@ An interactive web-based platform for visualizing and understanding fundamental 
 | Algorithm | Graph Input | Step Visualization | Optimal Node Count |
 |-----------|-------------|-------------------|-------------------|
 | **Dijkstra's Algorithm** | ✅ Manual/Upload | ✅ Yes | 4-8 nodes |
-| **Distance Vector Routing** | ✅ Manual/Upload | ✅ Yes | 4-6 nodes |
+
 | **Flooding Algorithm** | ✅ Manual/Upload | ✅ Yes | 4-7 nodes |
 | **Link State Routing** | ✅ Manual/Upload | ✅ Yes | 4-6 nodes |
 | **Hierarchical Routing** | ❌ Hardcoded | ✅ Yes | Fixed topology |
@@ -144,10 +144,6 @@ A-B,2;A-C,4;B-D,3;C-D,1;D-E,2;E-F,3;B-F,5
 - **Visualization**: Shows distance updates and visited nodes
 - **Best for**: Learning shortest path concepts
 
-### Distance Vector Routing
-- **Purpose**: Distributed routing protocol simulation
-- **Visualization**: Displays routing table updates
-- **Best for**: Understanding distributed algorithms
 
 ### Flooding Algorithm
 - **Purpose**: Message broadcasting across network
